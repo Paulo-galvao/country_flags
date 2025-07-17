@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import Flag from "../models/Flag.js";
 
 export async function index(req, res) {
@@ -59,7 +60,7 @@ export async function update(req, res) {
                 id: id
             }});
 
-        res.status(200).send({message: "Bandeira atualizada com sucesso"});
+        res.status(200).send({message: "Atualizado com sucesso"});
 
     } catch (error) {
         res.status(500).send(error.message);
@@ -74,7 +75,67 @@ export async function destroy(req, res) {
             where: {id: id}
         })
 
-        res.status(200).send({message: "Bandeira excluida com sucesso"});
+        res.status(200).send({message: "Excluido com sucesso"});
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+export async function search(req, res) {
+    try {
+        const { name } = req.query;
+
+        if(!name ) {
+            res.status(400).send({ message: "Campo de pesquisa não pode estar vazio" })
+        }
+
+        const flag = await Flag.findOne({
+            where: { name: {
+                [Op.iLike]: `%${name}%` // ignore case sensitive
+            } }
+        });
+
+        if(!flag) {
+            res.status(400).send({message: "Nenhum resultado encontrado"});
+        }
+
+        res.status(200).send(flag);
+
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+export async function filter(req, res) {
+    try {
+        const { continent } = req.query;
+
+        if(!continent ) {
+            res.status(400).send({ message: "Campo de pesquisa não pode estar vazio" })
+        }
+
+        const flag = await Flag.findOne({
+            where: { continent }
+        });
+
+        res.status(200).send(flag);
+
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+
+export async function orderBy(req, res) {
+    try {
+        const flags = await Flag.findAll( {
+           order: [
+                ['population', 'DESC']
+            ]
+        } );
+
+        res.status(200).send(flags);
+
     } catch (error) {
         res.status(500).send(error.message);
     }

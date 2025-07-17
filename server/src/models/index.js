@@ -5,7 +5,6 @@ import sequelize from "../config/database.js";
 const User = defineUser(sequelize, DataTypes);
 const Flag = defineFlag(sequelize, DataTypes);
 
-
 User.hasMany(Flag, { foreignKey: "user_id", as: "flags" });
 Flag.belongsTo(User, { foreignKey: "user_id", as: "usuario" });
 
