@@ -1,11 +1,13 @@
-import { Sequelize, DataTypes } from 'sequelize';
+import { Sequelize } from 'sequelize';
 
 import "dotenv/config";
 
 const password = process.env.PASSWORD_DB;
+const database = process.env.DATABASE_NAME;
+const host = process.env.HOST;
 
-const sequelize = new Sequelize('flags', 'postgres', password, {
-  host: 'localhost',
+const sequelize = new Sequelize(database, 'postgres', password, {
+  host,
   dialect: 'postgres',
 });
 

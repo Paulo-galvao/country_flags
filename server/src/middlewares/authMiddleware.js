@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
-import User from "../models/User.js"
 
-export default async function authMiddeware(req, res, next) {
+export default async function authMiddleware(req, res, next) {
     try {
         const secretkey = process.env.SECRET_KEY;
         const { authorization } = req.headers;
@@ -19,8 +18,13 @@ export default async function authMiddeware(req, res, next) {
         }
 
         jwt.verify( token, secretkey, async( error, decoded ) => {
+            if(!decoded) {
+                return res.status(401).send({message: "Falha ao encontrar token"});
+            }
+            
+            
+            
             req.userId = decoded.id;
-            await User.findByPk(req.userId);
 
             return next();
         });

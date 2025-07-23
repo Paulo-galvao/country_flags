@@ -3,7 +3,11 @@ import Flag from "../models/Flag.js";
 
 export async function index(req, res) {
     try {
-        const flags = await Flag.findAll();
+        const flags = await Flag.findAll({
+            order: [
+                ["name"],
+            ]
+        });
 
         res.status(200).send(flags);
     } catch (error) {
@@ -29,8 +33,9 @@ export async function create(req, res) {
         if(!name || !continent | !population || !capital || ! flag_url) {
             res.status(400).send({message: "Erro: Preencha todos os campos"});
         }
+
         const flag = await Flag.create({
-            name, continent, population, capital, flag_url, user_id: 1
+            name, continent, population, capital, flag_url, user_id: req.userId
         });
 
 
@@ -49,12 +54,20 @@ export async function update(req, res) {
 
         const {name, continent, population, capital, flag_url } = req.body;
 
-        if(!name || !continent | !population || !capital || ! flag_url) {
+        if(!name || !continent || !population || !capital || ! flag_url) {
             res.status(400).send({message: "Erro: Preencha todos os campos"});
         }
 
+        const flag = await Flag.findByPk(id);
+        const userId = flag.user_id;
+
+        if(req.userId != userId) {
+            res.status(403).send({ message: "Erro: não permitido alterar post de outro usuário"});
+        } 
+        
+
         await Flag.update(
-            {name, continent, population, capital, flag_url },
+            {name, continent, population, capital, flag_url, user_id: userId },
             {
             where: {
                 id: id
@@ -99,7 +112,7 @@ export async function search(req, res) {
             res.status(400).send({message: "Nenhum resultado encontrado"});
         }
 
-        res.status(200).send(flag);
+        res.status(200).send({message: "Success",flag});
 
     } catch (error) {
         res.status(500).send(error.message);
