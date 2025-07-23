@@ -1,16 +1,15 @@
-import { useNavigate, Link } from "react-router";
 import Label from "../components/form/Label";
 import Input from "../components/form/Input";
 import Button from "../components/form/Button";
 import Logo from "../components/Logo";
 import AuthArea from "../components/form/AuthArea";
 
+import { useNavigate, Link } from "react-router";
 import { useState } from "react";
 import { useAuth } from "../UserContext";
 
 export default function Login() {
   const { login, api_url } = useAuth();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { literal } from "sequelize";
 import Flag from "../models/Flag.js";
 
 export async function index(req, res) {
@@ -103,9 +103,8 @@ export async function search(req, res) {
         }
 
         const flag = await Flag.findOne({
-            where: { name: {
-                [Op.iLike]: `%${name}%` // ignore case sensitive
-            } }
+            
+            where: literal(`unaccent("name") ILIKE unaccent('%${name}%')`) // ignore diacríticos
         });
 
         if(!flag) {

@@ -1,10 +1,7 @@
 import { Link, useLocation } from "react-router";
 
-
-
 export default function Card({ props }) {
   const location = useLocation();
-
 
   return (
     <div className="w-full my-15 space-y-15 grid md:grid-cols-4">

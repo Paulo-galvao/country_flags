@@ -72,7 +72,7 @@ export function AuthProvider({ children }) {
   function logout() {
     setUser(null);
     localStorage.removeItem("token");
-    
+    navigate("/login");
   }
 
   return (

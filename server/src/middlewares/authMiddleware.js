@@ -22,8 +22,6 @@ export default async function authMiddleware(req, res, next) {
                 return res.status(401).send({message: "Falha ao encontrar token"});
             }
             
-            
-            
             req.userId = decoded.id;
 
             return next();

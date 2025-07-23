@@ -4,9 +4,9 @@ import Input from "../components/form/Input";
 import Button from "../components/form/Button";
 import DashForm from "../components/form/DashForm";
 
-import { useParams, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useAuth } from "../UserContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Create() {
   const { api_url } = useAuth();

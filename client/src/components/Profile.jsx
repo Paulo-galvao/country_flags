@@ -2,7 +2,7 @@ import { useAuth } from "../UserContext";
 import { Link } from "react-router";
 
 export default function Profile() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
 
   return (
     <div>
@@ -14,7 +14,7 @@ export default function Profile() {
               <i className="bx  bx-user-circle relative top-[1px]"></i>
               <span>{user.username}</span>
             </div>
-            <button className="block cursor-pointer">Logout</button>
+            <button onClick={logout} className="block cursor-pointer">Logout</button>
             <Link to={"/create"}>
               <button className="cursor-pointer block bg-blue-600 text-white p-3 mt-2 rounded-xl hover:bg-blue-500 duration-300 ease-in">
                 Adicionar nova bandeira

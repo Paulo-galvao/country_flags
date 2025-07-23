@@ -9,8 +9,7 @@ export default function Header() {
   const [menuIsClosed, setMenuIsClosed] = useState(true);
   const [query, setQuery] = useState(null);
   const location = useLocation();
-  
-  
+
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -35,13 +34,12 @@ export default function Header() {
     try {
       const response = await fetch(`${api_url}/flags/search?name=${query}`);
       const data = await response.json();
-      
-      if(response.ok) {
+
+      if (response.ok) {
         navigate(`/show/${data.flag.id}`);
       } else {
         alert(data.message);
       }
-      
     } catch (error) {
       alert(error.message);
     }
@@ -57,7 +55,7 @@ export default function Header() {
           <i className="bx  bx-search-alt absolute text-xl text-gray-400 left-2 top-[7px]"></i>
           <form onSubmit={handleSearch}>
             <input
-            onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
               className="py-1 px-9 rounded-md border-1 focus:border-2 outline-none focus:border-blue-500 border-gray-400 w-full max-w-4xl mx-auto"
               placeholder="Pesquisar"
               type="text"
@@ -67,35 +65,34 @@ export default function Header() {
 
         {location.pathname != "/dashboard" ? (
           <div className="w-1/10">
-          
-          {token ? (
-            <div className="flex justify-end mr-2">
-              {menuIsClosed ? (
-                <i
-                  onClick={openMenu}
-                  className="text-[30px] bx bx-menu cursor-pointer"
-                ></i>
-              ) : (
-                <i
-                  onClick={closeMenu}
-                  className="text-[30px] bx bx-x cursor-pointer"
-                ></i>
-              )}
-            </div>
-          ) : (
-            <div className="flex justify-end mr-3 ">
-              <button
-                className="cursor-pointer"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </button>
-            </div>
-          )}
-        </div>
-        ) : (<div className="w-1/10"></div>)}
-        
-
+            {token ? (
+              <div className="flex justify-end mr-2">
+                {menuIsClosed ? (
+                  <i
+                    onClick={openMenu}
+                    className="text-[30px] bx bx-menu cursor-pointer"
+                  ></i>
+                ) : (
+                  <i
+                    onClick={closeMenu}
+                    className="text-[30px] bx bx-x cursor-pointer"
+                  ></i>
+                )}
+              </div>
+            ) : (
+              <div className="flex justify-end mr-3 ">
+                <button
+                  className="cursor-pointer"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="w-1/10"></div>
+        )}
       </header>
 
       {menuIsOpen && (

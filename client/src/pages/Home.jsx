@@ -1,7 +1,7 @@
-import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import Card from "../components/Card";
 import { useAuth } from "../UserContext";
+import Header from "../components/Header";
+import Card from "../components/Card";
 import Container from "../components/Container";
 
 export default function Home() {
@@ -16,9 +16,13 @@ export default function Home() {
 
       const data = await response.json();
 
-      setFlags(data);
+      if (response.ok) {
+        setFlags(data);
+      } else {
+        alert(data.message);
+      }
     } catch (error) {
-      console.log(error.message);
+      alert(error.message);
     }
   }
 
