@@ -28,4 +28,4 @@ app.get("/me", authMiddleware, async (req, res) => {
 });
 
 connectTest();
-app.listen(port, () => console.log("Server listening on port", port));
+app.listen(port, () => console.log("Server listening at port", port));
